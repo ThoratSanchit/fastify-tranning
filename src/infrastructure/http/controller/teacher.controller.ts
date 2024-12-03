@@ -32,8 +32,8 @@ export const getTeacherById = (teacherRepository: TeacherRepository) => async fu
     reply: FastifyReply
 ) {
     try {
-        const { id } = request.params as { id: string };
-        const teacher = await TeacherService(teacherRepository).getTeacher(id);
+        const { uuid } = request.params as { uuid: string };
+        const teacher = await TeacherService(teacherRepository).getTeacher(uuid);
 
         if (!teacher) {
             reply.status(404).send({ message: "Teacher not found" });
@@ -50,10 +50,10 @@ export const updateTeacher = (teacherRepository: TeacherRepository) => async fun
     reply: FastifyReply
 ) {
     try {
-        const { id } = request.params as { id: string };
+        const { uuid } = request.params as { uuid: string };
         const updates = request.body as Partial<TeacherPayload>;
 
-        const updatedTeacher = await TeacherService(teacherRepository).updateTeacher(id, updates);
+        const updatedTeacher = await TeacherService(teacherRepository).updateTeacher(uuid, updates);
 
         if (!updatedTeacher) {
             reply.status(404).send({ message: "Teacher not found or could not be updated" });

@@ -38,8 +38,8 @@ exports.getAllTeachers = getAllTeachers;
 const getTeacherById = (teacherRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = request.params;
-            const teacher = yield (0, teacher_service_1.TeacherService)(teacherRepository).getTeacher(id);
+            const { uuid } = request.params;
+            const teacher = yield (0, teacher_service_1.TeacherService)(teacherRepository).getTeacher(uuid);
             if (!teacher) {
                 reply.status(404).send({ message: "Teacher not found" });
             }
@@ -56,9 +56,9 @@ exports.getTeacherById = getTeacherById;
 const updateTeacher = (teacherRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = request.params;
+            const { uuid } = request.params;
             const updates = request.body;
-            const updatedTeacher = yield (0, teacher_service_1.TeacherService)(teacherRepository).updateTeacher(id, updates);
+            const updatedTeacher = yield (0, teacher_service_1.TeacherService)(teacherRepository).updateTeacher(uuid, updates);
             if (!updatedTeacher) {
                 reply.status(404).send({ message: "Teacher not found or could not be updated" });
             }
