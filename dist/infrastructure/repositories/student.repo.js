@@ -27,9 +27,15 @@ class StudentRepository {
             return student;
         });
     }
-    getAllStudents() {
+    getAllStudents(page, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const students = yield student_model_1.default.findAll();
+            // Calculate offset for pagination
+            const offset = (page - 1) * limit;
+            // Fetch students with pagination and limit
+            const students = yield student_model_1.default.findAll({
+                offset,
+                limit,
+            });
             return students;
         });
     }

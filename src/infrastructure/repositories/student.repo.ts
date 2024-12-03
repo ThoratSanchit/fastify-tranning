@@ -15,8 +15,17 @@ export class StudentRepository implements IStudentRepository {
     const student = await StudentModel.findOne({ where: { uuid } });
     return student as unknown as StudentBaap;
   }
-  async getAllStudents(): Promise<StudentBaap[]> {
-    const students = await StudentModel.findAll();
+ 
+  async getAllStudents(page: number, limit: number): Promise<StudentBaap[]> {
+    // Calculate offset for pagination
+    const offset = (page - 1) * limit;
+
+    // Fetch students with pagination and limit
+    const students = await StudentModel.findAll({
+      offset,
+      limit,
+    });
+
     return students as unknown as StudentBaap[];
   }
 

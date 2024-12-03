@@ -7,7 +7,7 @@ import {
   deleteStudent,
 } from "@infrastructure/http/controller/student.controller";
 import { type IStudentRepository } from "@core/repositories/student.repo";
-import { deleteStudentSchema, getStudentByID, postStudentSchema, putStudentSchema } from "../schemas/student.schemas";
+import { deleteStudentSchema, getAllStudentsSchema, getStudentByID, postStudentSchema, putStudentSchema } from "../schemas/student.schemas";
 
 export const studentRoutes = (
   studentRepository: IStudentRepository
@@ -21,7 +21,7 @@ export const studentRoutes = (
   {
     method: "GET",
     url: "/students",
-    // schema: findAllStudentsSchema,
+    schema: getAllStudentsSchema,
     handler: getAllStudents(studentRepository),
   },
   {
@@ -32,13 +32,13 @@ export const studentRoutes = (
   },
   {
     method: "PUT",
-    url: "/students/:id",
+    url: "/students/:uuid",
     schema:putStudentSchema,
     handler: updateStudent(studentRepository),
   },
   {
     method: "DELETE",
-    url: "/studentUser/:id",
+    url: "/studentUser/:uuid",
     schema:deleteStudentSchema,
     handler: deleteStudent(studentRepository),
   },

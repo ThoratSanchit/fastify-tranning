@@ -5,5 +5,7 @@ export interface StudentBaap {
     phone?: number;
     password?: string;
     enrolled?: boolean;
+    page?: number; // Optional parameter
+    limit?: number; 
 }
     

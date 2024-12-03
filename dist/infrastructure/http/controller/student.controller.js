@@ -13,36 +13,36 @@ exports.deleteStudent = exports.updateStudent = exports.getStudentById = exports
 const student_service_1 = require("@core/services/student.service");
 const createStudent = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
-        const student = yield (0, student_service_1.StudentService)(studentRepository)
-            .createStudent(request.body);
+        const student = yield (0, student_service_1.StudentService)(studentRepository).createStudent(request.body);
         void reply.status(201).send(student);
     });
 };
 exports.createStudent = createStudent;
-const getAllStudents = (studentRepository) => function (req, rep) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const students = yield (0, student_service_1.StudentService)(studentRepository).getAllStudents();
-        void rep.status(200).send(students);
+const getAllStudents = (studentService) => {
+    return (request, reply) => __awaiter(void 0, void 0, void 0, function* () {
+        const { page = 1, limit = 10 } = request.query;
+        try {
+            const students = yield studentService.getAllStudents(page, limit);
+            return reply.code(200).send(students);
+        }
+        catch (error) {
+            return reply.code(500).send({ error: "Internal Server Error" });
+        }
     });
 };
 exports.getAllStudents = getAllStudents;
 const getStudentById = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Get the student ID from the route params
             const { id } = request.params;
-            // Fetch the student from the repository
             const student = yield (0, student_service_1.StudentService)(studentRepository).getStudent(id);
             if (!student) {
-                // If no student is found, return a 404 error
-                return reply.status(404).send({ message: 'Student not found' });
+                return reply.status(404).send({ message: "Student not found" });
             }
-            // If the student is found, return the student data
             return reply.status(200).send(student);
         }
         catch (error) {
-            // Handle unexpected errors
-            return reply.status(500).send({ message: 'Internal Server Error' });
+            return reply.status(500).send({ message: "Internal Server Error" });
         }
     });
 };
@@ -50,16 +50,18 @@ exports.getStudentById = getStudentById;
 const updateStudent = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = request.params;
+            const { uuid } = request.params;
             const updates = request.body;
-            const updatedStudent = yield (0, student_service_1.StudentService)(studentRepository).updateStudent(id, updates);
+            const updatedStudent = yield (0, student_service_1.StudentService)(studentRepository).updateStudent(uuid, updates);
             if (!updatedStudent) {
-                return reply.status(404).send({ message: 'Student not found or could not be updated' });
+                return reply
+                    .status(404)
+                    .send({ message: "Student not found or could not be updated" });
             }
             return reply.status(200).send(updatedStudent);
         }
         catch (error) {
-            return reply.status(500).send({ message: 'Internal Server Error' });
+            return reply.status(500).send({ message: "Internal Server Error" });
         }
     });
 };
@@ -67,15 +69,20 @@ exports.updateStudent = updateStudent;
 const deleteStudent = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = request.params;
-            const deletedStudent = yield (0, student_service_1.StudentService)(studentRepository).deleteStudent(id);
+            const { uuid } = request.params;
+            const deletedStudent = yield (0, student_service_1.StudentService)(studentRepository).deleteStudent(uuid);
             if (!deletedStudent) {
-                return reply.status(404).send({ message: 'Student not found or could not be deleted' });
+                return reply
+                    .status(404)
+                    .send({ message: "Student not found or could not be deleted" });
             }
-            return reply.status(200).send({ message: 'Student deleted successfully', student: deletedStudent });
+            return reply.status(200).send({
+                message: "Student deleted successfully",
+                student: deletedStudent,
+            });
         }
         catch (error) {
-            return reply.status(500).send({ message: 'Internal Server Error' });
+            return reply.status(500).send({ message: "Internal Server Error" });
         }
     });
 };

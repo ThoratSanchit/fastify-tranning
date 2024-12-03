@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllStudentsSchema = exports.deleteStudentSchema = exports.putStudentSchema = exports.getStudentByID = exports.notFoundSchema = exports.postStudentSchema = exports.StudentResponse = exports.StudentPayload = void 0;
+exports.deleteStudentSchema = exports.putStudentSchema = exports.getAllStudentsSchema = exports.GetAllStudentsQuery = exports.getStudentByID = exports.notFoundSchema = exports.postStudentSchema = exports.StudentResponse = exports.StudentPayload = void 0;
 const typebox_1 = require("@sinclair/typebox");
 exports.StudentPayload = typebox_1.Type.Object({
     name: typebox_1.Type.String(),
@@ -44,6 +44,21 @@ exports.getStudentByID = {
         404: Object.assign(Object.assign({}, exports.notFoundSchema), { description: 'Not found' }),
     },
 };
+exports.GetAllStudentsQuery = typebox_1.Type.Object({
+    page: typebox_1.Type.Optional(typebox_1.Type.Integer({ minimum: 1, default: 1 })), // Pagination: page number
+    limit: typebox_1.Type.Optional(typebox_1.Type.Integer({ minimum: 1, default: 10 })), // Pagination: number of records per page
+    sortBy: typebox_1.Type.Optional(typebox_1.Type.String({ enum: ["name", "email", "phone", "enrolled"], default: "name" })), // Sorting criteria
+    sortOrder: typebox_1.Type.Optional(typebox_1.Type.String({ enum: ["asc", "desc"], default: "asc" })), // Sorting order: ascending or descending
+});
+exports.getAllStudentsSchema = {
+    description: "Get all students",
+    tags: ["Student"],
+    summary: "Fetches all students with optional pagination and sorting",
+    querystring: exports.GetAllStudentsQuery, // Query parameters validation
+    response: {
+        200: typebox_1.Type.Array(exports.StudentResponse), // Returns an array of students in the response
+    },
+};
 exports.putStudentSchema = {
     description: 'Update an existing Student',
     tags: ['Student'],
@@ -63,23 +78,5 @@ exports.deleteStudentSchema = {
     response: {
         204: { description: 'Deleted successfully', type: 'null' }, // No content on success
         404: Object.assign(Object.assign({}, exports.notFoundSchema), { description: 'Not found' }),
-    },
-};
-exports.findAllStudentsSchema = {
-    description: 'Retrieve all students',
-    // tags: ['Student'],
-    summary: 'Fetches all students',
-    querystring: typebox_1.Type.Object({
-        page: typebox_1.Type.Optional(typebox_1.Type.Integer({ minimum: 1, default: 1, description: 'Page number for pagination' })),
-        limit: typebox_1.Type.Optional(typebox_1.Type.Integer({ minimum: 1, maximum: 100, default: 10, description: 'Number of records per page' })),
-    }),
-    response: {
-        200: typebox_1.Type.Object({
-            students: typebox_1.Type.Array(exports.StudentResponse), // Array of student objects
-            total: typebox_1.Type.Integer({ description: 'Total number of students' }),
-            page: typebox_1.Type.Integer({ description: 'Current page number' }),
-            limit: typebox_1.Type.Integer({ description: 'Number of students per page' }),
-        }),
-        404: Object.assign(Object.assign({}, exports.notFoundSchema), { description: 'No students found' }),
     },
 };

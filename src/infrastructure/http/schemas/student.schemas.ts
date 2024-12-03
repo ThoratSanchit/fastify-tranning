@@ -49,7 +49,22 @@ export const getStudentByID: FastifySchema = {
     },
 };
 
-
+export const GetAllStudentsQuery = Type.Object({
+    page: Type.Optional(Type.Integer({ minimum: 1, default: 1 })),  // Pagination: page number
+    limit: Type.Optional(Type.Integer({ minimum: 1, default: 10 })), // Pagination: number of records per page
+    sortBy: Type.Optional(Type.String({ enum: ["name", "email", "phone", "enrolled"], default: "name" })),  // Sorting criteria
+    sortOrder: Type.Optional(Type.String({ enum: ["asc", "desc"], default: "asc" })),  // Sorting order: ascending or descending
+  });
+  
+  export const getAllStudentsSchema: FastifySchema = {
+    description: "Get all students",
+    tags: ["Student"],
+    summary: "Fetches all students with optional pagination and sorting",
+    querystring: GetAllStudentsQuery, // Query parameters validation
+    response: {
+      200: Type.Array(StudentResponse), // Returns an array of students in the response
+    },
+  };
 
 export const putStudentSchema: FastifySchema = {
     description: 'Update an existing Student',

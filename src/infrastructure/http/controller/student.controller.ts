@@ -3,7 +3,6 @@ import { IStudentRepository } from "@core/repositories/student.repo";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StudentService } from "@core/services/student.service";
 import type { StudentTrainingPayload } from "@core/entities/student.training.payload";
-// import { StudentRepository } from "@infrastructure/repositories/student.repo";
 
 export const createStudent = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
@@ -12,12 +11,22 @@ export const createStudent = (studentRepository: IStudentRepository) =>
     );
     void reply.status(201).send(student);
   };
+export const getAllStudents = (studentService: IStudentRepository) => {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    const { page = 1, limit = 10 } = request.query as {
+      page: number;
+      limit: number;
+    };
 
-export const getAllStudents = (studentRepository: IStudentRepository) =>
-  async function (req: FastifyRequest, rep: FastifyReply) {
-    const students = await StudentService(studentRepository).getAllStudents();
-    void rep.status(200).send(students);
+    try {
+      const students = await studentService.getAllStudents(page, limit);
+
+      return reply.code(200).send(students);
+    } catch (error) {
+      return reply.code(500).send({ error: "Internal Server Error" });
+    }
   };
+};
 
 export const getStudentById = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
@@ -39,12 +48,12 @@ export const getStudentById = (studentRepository: IStudentRepository) =>
 export const updateStudent = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as { id: string };
+      const { uuid } = request.params as { uuid: string };
       const updates = request.body as Partial<StudentTrainingPayload>;
 
       const updatedStudent = await StudentService(
         studentRepository
-      ).updateStudent(id, updates);
+      ).updateStudent(uuid, updates);
 
       if (!updatedStudent) {
         return reply
@@ -61,11 +70,11 @@ export const updateStudent = (studentRepository: IStudentRepository) =>
 export const deleteStudent = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as { id: string };
+      const { uuid } = request.params as { uuid: string };
 
       const deletedStudent = await StudentService(
         studentRepository
-      ).deleteStudent(id);
+      ).deleteStudent(uuid);
 
       if (!deletedStudent) {
         return reply
@@ -73,12 +82,10 @@ export const deleteStudent = (studentRepository: IStudentRepository) =>
           .send({ message: "Student not found or could not be deleted" });
       }
 
-      return reply
-        .status(200)
-        .send({
-          message: "Student deleted successfully",
-          student: deletedStudent,
-        });
+      return reply.status(200).send({
+        message: "Student deleted successfully",
+        student: deletedStudent,
+      });
     } catch (error) {
       return reply.status(500).send({ message: "Internal Server Error" });
     }

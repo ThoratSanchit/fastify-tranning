@@ -13,7 +13,7 @@ const studentRoutes = (studentRepository) => [
     {
         method: "GET",
         url: "/students",
-        // schema: findAllStudentsSchema,
+        schema: student_schemas_1.getAllStudentsSchema,
         handler: (0, student_controller_1.getAllStudents)(studentRepository),
     },
     {
@@ -24,13 +24,13 @@ const studentRoutes = (studentRepository) => [
     },
     {
         method: "PUT",
-        url: "/students/:id",
+        url: "/students/:uuid",
         schema: student_schemas_1.putStudentSchema,
         handler: (0, student_controller_1.updateStudent)(studentRepository),
     },
     {
         method: "DELETE",
-        url: "/studentUser/:id",
+        url: "/studentUser/:uuid",
         schema: student_schemas_1.deleteStudentSchema,
         handler: (0, student_controller_1.deleteStudent)(studentRepository),
     },

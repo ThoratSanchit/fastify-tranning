@@ -17,8 +17,8 @@ const StudentService = (studentRepository) => ({
     getStudent: (uuid) => __awaiter(void 0, void 0, void 0, function* () {
         return yield studentRepository.getStudent(uuid);
     }),
-    getAllStudents: () => __awaiter(void 0, void 0, void 0, function* () {
-        return yield studentRepository.getAllStudents();
+    getAllStudents: (page, limit) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield studentRepository.getAllStudents(page, limit); // Passing page and limit
     }),
     deleteStudent: (uuid) => __awaiter(void 0, void 0, void 0, function* () {
         return yield studentRepository.deleteStudent(uuid);
