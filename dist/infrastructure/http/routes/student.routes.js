@@ -1,4 +1,5 @@
 "use strict";
+//student.route.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentRoutes = void 0;
 const student_controller_1 = require("@infrastructure/http/controller/student.controller");
@@ -15,6 +16,11 @@ const studentRoutes = (studentRepository) => [
         url: "/students",
         schema: student_schemas_1.getAllStudentsSchema,
         handler: (0, student_controller_1.getAllStudents)(studentRepository),
+    },
+    {
+        method: "GET",
+        url: "/students-teacher/:teacherId",
+        handler: (0, student_controller_1.getStudentByteacherId)(studentRepository),
     },
     {
         method: "GET",

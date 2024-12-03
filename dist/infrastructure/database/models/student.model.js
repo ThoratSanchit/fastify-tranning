@@ -48,7 +48,6 @@ StudentModel.init({
     tableName: "student",
     timestamps: true,
 });
-// Define relationship
 StudentModel.belongsTo(teacher_model_1.default, {
     foreignKey: "teacherId",
     as: "teacher",

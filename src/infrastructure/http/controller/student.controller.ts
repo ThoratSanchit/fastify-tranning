@@ -1,3 +1,4 @@
+//student.controller.ts
 import { IStudentRepository } from "@core/repositories/student.repo";
 
 import type { FastifyReply, FastifyRequest } from "fastify";
@@ -45,6 +46,25 @@ export const getStudentById = (studentRepository: IStudentRepository) =>
     }
   };
 
+
+
+  export const getStudentByteacherId = (studentRepository: IStudentRepository) =>
+    async function (request: FastifyRequest, reply: FastifyReply) {
+      try {
+        const {  teacherId } = request.params as { teacherId: string };
+  
+        const students = await StudentService(studentRepository).getStudentByTeacher(teacherId);
+  
+        if (!students || students.length === 0) {
+          return reply.status(404).send({ message: "No students found for this teacher" });
+        }
+  
+        return reply.status(200).send(students);
+      } catch (error) {
+        return reply.status(500).send({ message: "Internal Server Error", error });
+      }
+    };
+  
 export const updateStudent = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
     try {

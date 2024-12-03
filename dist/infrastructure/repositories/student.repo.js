@@ -29,9 +29,7 @@ class StudentRepository {
     }
     getAllStudents(page, limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Calculate offset for pagination
             const offset = (page - 1) * limit;
-            // Fetch students with pagination and limit
             const students = yield student_model_1.default.findAll({
                 offset,
                 limit,
@@ -57,6 +55,12 @@ class StudentRepository {
                 return updatedStudent;
             }
             return undefined;
+        });
+    }
+    getStudentByTeacher(teacherId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const students = yield student_model_1.default.findAll({ where: { teacherId: teacherId } });
+            return students.length ? students.map((student) => student.get()) : undefined; // Ensure array return type
         });
     }
 }

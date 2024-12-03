@@ -1,7 +1,9 @@
+//student.repo.ts
 import { IStudentRepository } from "@core/repositories/student.repo";
 import { StudentTrainingPayload } from "@core/entities/student.training.payload";
 import { StudentBaap } from "@core/entities/student.baap.training";
 import StudentModel from "@infrastructure/database/models/student.model";
+import TeacherModel from "@infrastructure/database/models/teacher.model";
 
 export class StudentRepository implements IStudentRepository {
   async createStudent(
@@ -15,12 +17,10 @@ export class StudentRepository implements IStudentRepository {
     const student = await StudentModel.findOne({ where: { uuid } });
     return student as unknown as StudentBaap;
   }
- 
+
   async getAllStudents(page: number, limit: number): Promise<StudentBaap[]> {
-    // Calculate offset for pagination
     const offset = (page - 1) * limit;
 
-    // Fetch students with pagination and limit
     const students = await StudentModel.findAll({
       offset,
       limit,
@@ -48,5 +48,10 @@ export class StudentRepository implements IStudentRepository {
       return updatedStudent as unknown as StudentBaap;
     }
     return undefined;
+  }
+
+  async getStudentByTeacher(teacherId: string): Promise<StudentBaap[] | undefined> {
+    const students = await StudentModel.findAll({ where: { teacherId:teacherId } });
+    return students.length ? students.map((student) => student.get() as StudentBaap) : undefined; // Ensure array return type
   }
 }

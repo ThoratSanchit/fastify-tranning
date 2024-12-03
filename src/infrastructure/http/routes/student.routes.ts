@@ -1,3 +1,5 @@
+//student.route.ts
+
 import { type RouteOptions, type RouteHandlerMethod } from "fastify";
 import {
   createStudent,
@@ -5,9 +7,16 @@ import {
   getStudentById,
   updateStudent,
   deleteStudent,
+  getStudentByteacherId,
 } from "@infrastructure/http/controller/student.controller";
 import { type IStudentRepository } from "@core/repositories/student.repo";
-import { deleteStudentSchema, getAllStudentsSchema, getStudentByID, postStudentSchema, putStudentSchema } from "../schemas/student.schemas";
+import {
+  deleteStudentSchema,
+  getAllStudentsSchema,
+  getStudentByID,
+  postStudentSchema,
+  putStudentSchema,
+} from "../schemas/student.schemas";
 
 export const studentRoutes = (
   studentRepository: IStudentRepository
@@ -26,20 +35,26 @@ export const studentRoutes = (
   },
   {
     method: "GET",
+    url: "/students-teacher/:teacherId",
+   
+    handler: getStudentByteacherId(studentRepository),
+  },
+  {
+    method: "GET",
     url: "/students/:id",
-    schema: getStudentByID, 
+    schema: getStudentByID,
     handler: getStudentById(studentRepository),
   },
   {
     method: "PUT",
     url: "/students/:uuid",
-    schema:putStudentSchema,
+    schema: putStudentSchema,
     handler: updateStudent(studentRepository),
   },
   {
     method: "DELETE",
     url: "/studentUser/:uuid",
-    schema:deleteStudentSchema,
+    schema: deleteStudentSchema,
     handler: deleteStudent(studentRepository),
   },
 ];

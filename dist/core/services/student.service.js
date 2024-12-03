@@ -1,4 +1,5 @@
 "use strict";
+// student.service.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,8 +18,11 @@ const StudentService = (studentRepository) => ({
     getStudent: (uuid) => __awaiter(void 0, void 0, void 0, function* () {
         return yield studentRepository.getStudent(uuid);
     }),
+    getStudentByTeacher: (teacherId) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield studentRepository.getStudentByTeacher(teacherId);
+    }),
     getAllStudents: (page, limit) => __awaiter(void 0, void 0, void 0, function* () {
-        return yield studentRepository.getAllStudents(page, limit); // Passing page and limit
+        return yield studentRepository.getAllStudents(page, limit);
     }),
     deleteStudent: (uuid) => __awaiter(void 0, void 0, void 0, function* () {
         return yield studentRepository.deleteStudent(uuid);

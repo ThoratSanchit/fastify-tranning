@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteStudent = exports.updateStudent = exports.getStudentById = exports.getAllStudents = exports.createStudent = void 0;
+exports.deleteStudent = exports.updateStudent = exports.getStudentByteacherId = exports.getStudentById = exports.getAllStudents = exports.createStudent = void 0;
 const student_service_1 = require("@core/services/student.service");
 const createStudent = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -47,6 +47,22 @@ const getStudentById = (studentRepository) => function (request, reply) {
     });
 };
 exports.getStudentById = getStudentById;
+const getStudentByteacherId = (studentRepository) => function (request, reply) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { teacherId } = request.params;
+            const students = yield (0, student_service_1.StudentService)(studentRepository).getStudentByTeacher(teacherId);
+            if (!students || students.length === 0) {
+                return reply.status(404).send({ message: "No students found for this teacher" });
+            }
+            return reply.status(200).send(students);
+        }
+        catch (error) {
+            return reply.status(500).send({ message: "Internal Server Error", error });
+        }
+    });
+};
+exports.getStudentByteacherId = getStudentByteacherId;
 const updateStudent = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
