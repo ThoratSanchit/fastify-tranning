@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("../../database/index"));
+const teacher_model_1 = __importDefault(require("./teacher.model"));
 class StudentModel extends sequelize_1.Model {
 }
 StudentModel.init({
@@ -34,9 +35,22 @@ StudentModel.init({
         type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
+    teacherId: {
+        type: sequelize_1.DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: "teacher",
+            key: "uuid",
+        },
+    },
 }, {
     sequelize: index_1.default,
-    tableName: 'student',
+    tableName: "student",
     timestamps: true,
+});
+// Define relationship
+StudentModel.belongsTo(teacher_model_1.default, {
+    foreignKey: "teacherId",
+    as: "teacher",
 });
 exports.default = StudentModel;

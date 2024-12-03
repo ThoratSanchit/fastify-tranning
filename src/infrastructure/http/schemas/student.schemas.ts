@@ -6,7 +6,8 @@ export const StudentPayload = Type.Object({
     email: Type.String(),
     password: Type.String(),
     phone:Type.Integer(),
-    enrolled:Type.Boolean()
+    enrolled:Type.Boolean(),
+    teacherId:Type.String(),
 });
 
 export const StudentResponse = Type.Object({
@@ -15,7 +16,8 @@ export const StudentResponse = Type.Object({
     email: Type.Optional(Type.String()),
     password: Type.Optional(Type.String()),
     phone: Type.Optional(Type.Integer()),
-    enrolled:Type.Optional(Type.Boolean())
+    enrolled:Type.Optional(Type.Boolean()),
+    teacherId:Type.Optional(Type.String())
 });
 
 export const postStudentSchema: FastifySchema = {

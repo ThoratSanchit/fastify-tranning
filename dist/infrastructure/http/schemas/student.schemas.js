@@ -7,7 +7,8 @@ exports.StudentPayload = typebox_1.Type.Object({
     email: typebox_1.Type.String(),
     password: typebox_1.Type.String(),
     phone: typebox_1.Type.Integer(),
-    enrolled: typebox_1.Type.Boolean()
+    enrolled: typebox_1.Type.Boolean(),
+    teacherId: typebox_1.Type.String(),
 });
 exports.StudentResponse = typebox_1.Type.Object({
     uuid: typebox_1.Type.Optional(typebox_1.Type.String()),
@@ -15,7 +16,8 @@ exports.StudentResponse = typebox_1.Type.Object({
     email: typebox_1.Type.Optional(typebox_1.Type.String()),
     password: typebox_1.Type.Optional(typebox_1.Type.String()),
     phone: typebox_1.Type.Optional(typebox_1.Type.Integer()),
-    enrolled: typebox_1.Type.Optional(typebox_1.Type.Boolean())
+    enrolled: typebox_1.Type.Optional(typebox_1.Type.Boolean()),
+    teacherId: typebox_1.Type.Optional(typebox_1.Type.String())
 });
 exports.postStudentSchema = {
     description: 'Create a new Student',

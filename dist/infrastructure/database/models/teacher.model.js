@@ -21,10 +21,10 @@ TeacherModel.init({
     className: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-    }
+    },
 }, {
     sequelize: index_1.default,
-    tableName: 'teacher',
+    tableName: "teacher",
     timestamps: true,
 });
 exports.default = TeacherModel;
