@@ -24,6 +24,7 @@ const sequelize = new sequelize_1.Sequelize(process.env.DATABASE_NAME || '', pro
 const initDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield sequelize.authenticate();
+        sequelize.sync({ alter: true });
         console.log('Connection to MySQL has been established successfully.');
         return sequelize;
     }

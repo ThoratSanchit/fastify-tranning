@@ -17,6 +17,7 @@ const sequelize = new Sequelize(
 export const initDB = async (): Promise<Sequelize> => {
     try {
         await sequelize.authenticate();
+        sequelize.sync({alter:true})
         console.log('Connection to MySQL has been established successfully.');
         return sequelize;
     } catch (error) {
