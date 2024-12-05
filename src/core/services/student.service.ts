@@ -1,6 +1,6 @@
 // student.service.ts
 
-import { StudentTrainingPayload } from "../entities/student.training.payload";
+import { StudentTrainingPayload } from "../entities/student.training.ommit";
 import { StudentBaap } from "../entities/student.baap.training";
 import { IStudentRepository } from "../repositories/student.repo";
 

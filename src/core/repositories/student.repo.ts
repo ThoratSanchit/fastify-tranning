@@ -1,5 +1,5 @@
 // student.repo.ts
-import { StudentTrainingPayload } from "../entities/student.training.payload";
+import { StudentTrainingPayload } from "../entities/student.training.ommit";
 
 import { StudentBaap } from "@core/entities/student.baap.training";
 

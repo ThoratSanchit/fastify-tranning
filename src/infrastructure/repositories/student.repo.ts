@@ -1,6 +1,6 @@
 //student.repo.ts
 import { IStudentRepository } from "@core/repositories/student.repo";
-import { StudentTrainingPayload } from "@core/entities/student.training.payload";
+import { StudentTrainingPayload } from "@core/entities/student.training.ommit";
 import { StudentBaap } from "@core/entities/student.baap.training";
 import StudentModel from "@infrastructure/database/models/student.model";
 import TeacherModel from "@infrastructure/database/models/teacher.model";

@@ -3,7 +3,7 @@ import { IStudentRepository } from "@core/repositories/student.repo";
 
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StudentService } from "@core/services/student.service";
-import type { StudentTrainingPayload } from "@core/entities/student.training.payload";
+import type { StudentTrainingPayload } from "@core/entities/student.training.ommit";
 
 export const createStudent = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
