@@ -1,9 +1,9 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../../database/index";
 
-class TeacherModel extends Model {}
+class CourseModel extends Model {}
 
-TeacherModel.init(
+CourseModel.init(
   {
     uuid: {
       type: DataTypes.UUID,
@@ -11,20 +11,16 @@ TeacherModel.init(
       allowNull: false,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    className: {
+    course_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
     sequelize,
-    tableName: "teacher",
+    tableName: "course",
     timestamps: true,
   }
 );
 
-export default TeacherModel;
+export default CourseModel;

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("../../database/index"));
-const teacher_model_1 = __importDefault(require("./teacher.model"));
+const teacher_model_1 = __importDefault(require("./teacher.model")); // Ensure TeacherModel is imported correctly
 class StudentModel extends sequelize_1.Model {
 }
 StudentModel.init({
@@ -22,7 +22,7 @@ StudentModel.init({
     email: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
@@ -40,7 +40,7 @@ StudentModel.init({
         type: sequelize_1.DataTypes.UUID,
         allowNull: false,
         references: {
-            model: "teacher",
+            model: teacher_model_1.default,
             key: "uuid",
         },
     },
@@ -51,6 +51,6 @@ StudentModel.init({
 });
 StudentModel.belongsTo(teacher_model_1.default, {
     foreignKey: "teacherId",
-    as: "teacher",
+    targetKey: "uuid",
 });
 exports.default = StudentModel;

@@ -4,6 +4,7 @@ import { StudentTrainingPayload } from "@core/entities/student.training.ommit";
 import { StudentBaap } from "@core/entities/student.baap.training";
 import StudentModel from "@infrastructure/database/models/student.model";
 import TeacherModel from "@infrastructure/database/models/teacher.model";
+// import TeacherModel from "@infrastructure/database/models/teacher.model";
 
 export class StudentRepository implements IStudentRepository {
   async createStudent(
@@ -50,8 +51,23 @@ export class StudentRepository implements IStudentRepository {
     return undefined;
   }
 
+  // async getStudentByTeacher(teacherId: string): Promise<StudentBaap[] | undefined> {
+  //   const students = await StudentModel.findAll({ where: { teacherId:teacherId } });
+  //   return students.length ? students.map((student) => student.get() as StudentBaap) : undefined; // Ensure array return type
+  // }
+
+
   async getStudentByTeacher(teacherId: string): Promise<StudentBaap[] | undefined> {
-    const students = await StudentModel.findAll({ where: { teacherId:teacherId } });
-    return students.length ? students.map((student) => student.get() as StudentBaap) : undefined; // Ensure array return type
+    const students = await StudentModel.findAll({
+      where: { teacherId: teacherId },
+      include: {
+        model: TeacherModel,
+        required: true, // Ensures that the student is linked to a teacher
+      },
+    });
+  
+    return students.length
+      ? students.map((student) => student.get() as StudentBaap)
+      : undefined; // Ensure array return type
   }
 }

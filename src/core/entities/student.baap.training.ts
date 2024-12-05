@@ -6,6 +6,7 @@ export interface StudentBaap {
     teacherId?:string;
     password?: string;
     enrolled?: boolean;
+    courseId?:string
     page?: number; // Optional parameter
     limit?: number; 
 }

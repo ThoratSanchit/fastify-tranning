@@ -1,72 +1,77 @@
-import fastify, {type FastifyInstance, type FastifyServerOptions} from 'fastify'
-import {type TypeBoxTypeProvider} from '@fastify/type-provider-typebox'
-import routes from '@infrastructure/http/routes/index'
+import fastify, {
+  type FastifyInstance,
+  type FastifyServerOptions,
+} from "fastify";
+import { type TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import routes from "@infrastructure/http/routes/index";
 import cors from "@fastify/cors";
-import docs from '@infrastructure/http/plugins/docs'
-import config from '@infrastructure/http/plugins/config'
-import sequelize from '@infrastructure/database/index'
-import {StudentRepository} from "@infrastructure/repositories/student.repo";
+import docs from "@infrastructure/http/plugins/docs";
+import config from "@infrastructure/http/plugins/config";
+import sequelize from "@infrastructure/database/index";
+import { StudentRepository } from "@infrastructure/repositories/student.repo";
+import { CourseRepository } from "@infrastructure/repositories/course.repo";
 
-import { TeacherRepositoryImpl } from '@infrastructure/repositories/teacher.repo';
+import { TeacherRepositoryImpl } from "@infrastructure/repositories/teacher.repo";
 
 export const createServer = async (): Promise<FastifyInstance> => {
-    const envToLogger: any = {
-        development: {
-            transport: {
-                target: 'pino-pretty',
-                options: {
-                    translateTime: 'HH:MM:ss Z',
-                    ignore: 'pid,hostname'
-                }
-            }
+  const envToLogger: any = {
+    development: {
+      transport: {
+        target: "pino-pretty",
+        options: {
+          translateTime: "HH:MM:ss Z",
+          ignore: "pid,hostname",
         },
-        production: true,
-        test: false
-    }
+      },
+    },
+    production: true,
+    test: false,
+  };
 
-    const environment = process.env.NODE_ENV ?? 'production'
-    await sequelize.sync()
-    const serverOptions: FastifyServerOptions = {
-        ajv: {
-            customOptions: {
-                removeAdditional: 'all',
-                coerceTypes: true,
-                useDefaults: true,
-                keywords: ['kind', 'modifier']
-            }
-        },
-        logger: envToLogger[environment] ?? true
-    }
-    const server = fastify(serverOptions).withTypeProvider<TypeBoxTypeProvider>()
+  const environment = process.env.NODE_ENV ?? "production";
+  await sequelize.sync();
+  const serverOptions: FastifyServerOptions = {
+    ajv: {
+      customOptions: {
+        removeAdditional: "all",
+        coerceTypes: true,
+        useDefaults: true,
+        keywords: ["kind", "modifier"],
+      },
+    },
+    logger: envToLogger[environment] ?? true,
+  };
+  const server = fastify(serverOptions).withTypeProvider<TypeBoxTypeProvider>();
 
-    // const server = fastify();
+  // const server = fastify();
 
-    server.register(cors, {
-        origin: "*",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    });
+  server.register(cors, {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  });
 
-    server.get("/", async (request, reply) => {
-        reply.send({message: "Welcome to the TEAI service"});
-    });
+  server.get("/", async (request, reply) => {
+    reply.send({ message: "Welcome to the TEAI service" });
+  });
 
+  await server.register(docs);
+  await server.register(config);
 
-    await server.register(docs)
-    await server.register(config)
+  const studentRepository = new StudentRepository();
 
-    const studentRepository = new StudentRepository()
-    
-    const teacherRepositoryImpl= new TeacherRepositoryImpl()
+  const teacherRepositoryImpl = new TeacherRepositoryImpl();
+  const courseRepository = new CourseRepository();
 
-    const applicationRoutes = routes(
-        studentRepository,
-        teacherRepositoryImpl
-    )
-    applicationRoutes.forEach((route) => {
-        server.route(route)
-    })
+  const applicationRoutes = routes(
+    studentRepository,
+    teacherRepositoryImpl,
+    courseRepository
+  );
+  applicationRoutes.forEach((route) => {
+    server.route(route);
+  });
 
-    await server.ready()
-    return server
-}
+  await server.ready();
+  return server;
+};

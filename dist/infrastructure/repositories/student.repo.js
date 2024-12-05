@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentRepository = void 0;
 const student_model_1 = __importDefault(require("@infrastructure/database/models/student.model"));
+const teacher_model_1 = __importDefault(require("@infrastructure/database/models/teacher.model"));
+// import TeacherModel from "@infrastructure/database/models/teacher.model";
 class StudentRepository {
     createStudent(studentPayload) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -57,10 +59,22 @@ class StudentRepository {
             return undefined;
         });
     }
+    // async getStudentByTeacher(teacherId: string): Promise<StudentBaap[] | undefined> {
+    //   const students = await StudentModel.findAll({ where: { teacherId:teacherId } });
+    //   return students.length ? students.map((student) => student.get() as StudentBaap) : undefined; // Ensure array return type
+    // }
     getStudentByTeacher(teacherId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const students = yield student_model_1.default.findAll({ where: { teacherId: teacherId } });
-            return students.length ? students.map((student) => student.get()) : undefined; // Ensure array return type
+            const students = yield student_model_1.default.findAll({
+                where: { teacherId: teacherId },
+                include: {
+                    model: teacher_model_1.default,
+                    required: true, // Ensures that the student is linked to a teacher
+                },
+            });
+            return students.length
+                ? students.map((student) => student.get())
+                : undefined; // Ensure array return type
         });
     }
 }

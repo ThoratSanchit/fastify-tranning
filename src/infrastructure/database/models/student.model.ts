@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../../database/index";
-import TeacherModel from "./teacher.model";
+import TeacherModel from "./teacher.model"; // Ensure TeacherModel is imported correctly
 
 class StudentModel extends Model {}
 
@@ -19,8 +19,7 @@ StudentModel.init(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique:true
-
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -38,7 +37,7 @@ StudentModel.init(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: "teacher",
+        model: TeacherModel,
         key: "uuid",
       },
     },
@@ -52,7 +51,7 @@ StudentModel.init(
 
 StudentModel.belongsTo(TeacherModel, {
   foreignKey: "teacherId",
-  as: "teacher",
+  targetKey: "uuid",
 });
 
 export default StudentModel;
