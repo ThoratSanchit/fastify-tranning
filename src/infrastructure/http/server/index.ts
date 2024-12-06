@@ -9,6 +9,7 @@ import docs from "@infrastructure/http/plugins/docs";
 import config from "@infrastructure/http/plugins/config";
 import sequelize from "@infrastructure/database/index";
 import { StudentRepository } from "@infrastructure/repositories/student.repo";
+import {defineAssociations} from "@infrastructure/http/middleware/association";
 
 
 import { TeacherRepositoryImpl } from "@infrastructure/repositories/teacher.repo";
@@ -31,7 +32,7 @@ export const createServer = async (): Promise<FastifyInstance> => {
 
   const environment = process.env.NODE_ENV ?? "production";
   await sequelize.sync();
-  // defineAssociations();
+  defineAssociations();
   const serverOptions: FastifyServerOptions = {
     ajv: {
       customOptions: {

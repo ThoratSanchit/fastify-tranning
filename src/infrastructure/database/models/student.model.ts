@@ -55,12 +55,12 @@ StudentModel.init(
 );
 
 // Associations
-StudentModel.belongsTo(TeacherModel, {
-  foreignKey: "teacherId",
-  targetKey: "uuid",
-   as: "teacher"
+// StudentModel.belongsTo(TeacherModel, {
+//   foreignKey: "teacherId",
+//   targetKey: "uuid",
+//    as: "teacher"
 
-});
+// });
 
 
 

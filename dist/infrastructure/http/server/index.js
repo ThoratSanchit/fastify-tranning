@@ -20,6 +20,7 @@ const docs_1 = __importDefault(require("@infrastructure/http/plugins/docs"));
 const config_1 = __importDefault(require("@infrastructure/http/plugins/config"));
 const index_2 = __importDefault(require("@infrastructure/database/index"));
 const student_repo_1 = require("@infrastructure/repositories/student.repo");
+const association_1 = require("@infrastructure/http/middleware/association");
 const teacher_repo_1 = require("@infrastructure/repositories/teacher.repo");
 const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
@@ -38,7 +39,7 @@ const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
     };
     const environment = (_a = process.env.NODE_ENV) !== null && _a !== void 0 ? _a : "production";
     yield index_2.default.sync();
-    // defineAssociations();
+    (0, association_1.defineAssociations)();
     const serverOptions = {
         ajv: {
             customOptions: {
