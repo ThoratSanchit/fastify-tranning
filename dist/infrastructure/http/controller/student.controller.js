@@ -39,7 +39,6 @@ const getStudentById = (studentRepository) => function (request, reply) {
             if (!student) {
                 return reply.status(404).send({ message: "Student not found" });
             }
-            console.log(student);
             return reply.status(200).send(student);
         }
         catch (error) {

@@ -25,10 +25,12 @@ class StudentRepository {
     getStudent(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
             const student = yield student_model_1.default.findByPk(uuid, {
-                include: [{
+                include: [
+                    {
                         model: teacher_model_1.default,
-                        as: 'teacher'
-                    }]
+                        as: "teacher",
+                    },
+                ],
             });
             return student;
         });
@@ -73,6 +75,7 @@ class StudentRepository {
                 where: { teacherId: teacherId },
                 include: {
                     model: teacher_model_1.default,
+                    as: "teacher",
                     required: true, // Ensures that the student is linked to a teacher
                 },
             });

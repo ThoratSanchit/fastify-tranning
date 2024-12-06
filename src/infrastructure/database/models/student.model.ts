@@ -58,6 +58,7 @@ StudentModel.init(
 StudentModel.belongsTo(TeacherModel, {
   foreignKey: "teacherId",
   targetKey: "uuid",
+   as: "teacher"
 
 });
 

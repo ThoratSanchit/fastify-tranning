@@ -39,8 +39,9 @@ export const getStudentById = (studentRepository: IStudentRepository) =>
       if (!student) {
         return reply.status(404).send({ message: "Student not found" });
       }
-console.log(student)
+    
       return reply.status(200).send(student);
+      
     } catch (error) {
       return reply.status(500).send({ message: "Internal Server Error" });
     }

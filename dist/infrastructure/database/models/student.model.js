@@ -54,5 +54,6 @@ StudentModel.init({
 StudentModel.belongsTo(teacher_model_1.default, {
     foreignKey: "teacherId",
     targetKey: "uuid",
+    as: "teacher"
 });
 exports.default = StudentModel;
