@@ -41,7 +41,7 @@ export const studentRoutes = (
   },
   {
     method: "GET",
-    url: "/students/:id",
+    url: "/students/:uuid",
     schema: getStudentByID,
     handler: getStudentById(studentRepository),
   },

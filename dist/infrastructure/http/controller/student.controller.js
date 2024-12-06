@@ -34,11 +34,12 @@ exports.getAllStudents = getAllStudents;
 const getStudentById = (studentRepository) => function (request, reply) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = request.params;
-            const student = yield (0, student_service_1.StudentService)(studentRepository).getStudent(id);
+            const { uuid } = request.params;
+            const student = yield (0, student_service_1.StudentService)(studentRepository).getStudent(uuid);
             if (!student) {
                 return reply.status(404).send({ message: "Student not found" });
             }
+            console.log(student);
             return reply.status(200).send(student);
         }
         catch (error) {

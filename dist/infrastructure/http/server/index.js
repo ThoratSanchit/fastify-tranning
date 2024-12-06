@@ -37,7 +37,7 @@ const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
         test: false,
     };
     const environment = (_a = process.env.NODE_ENV) !== null && _a !== void 0 ? _a : "production";
-    yield index_2.default.sync({ force: true });
+    yield index_2.default.sync();
     // defineAssociations();
     const serverOptions = {
         ajv: {

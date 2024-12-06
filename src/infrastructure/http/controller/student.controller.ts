@@ -32,14 +32,14 @@ export const getAllStudents = (studentService: IStudentRepository) => {
 export const getStudentById = (studentRepository: IStudentRepository) =>
   async function (request: FastifyRequest, reply: FastifyReply) {
     try {
-      const { id } = request.params as { id: string };
+      const { uuid } = request.params as { uuid: string };
 
-      const student = await StudentService(studentRepository).getStudent(id);
+      const student = await StudentService(studentRepository).getStudent(uuid);
 
       if (!student) {
         return reply.status(404).send({ message: "Student not found" });
       }
-
+console.log(student)
       return reply.status(200).send(student);
     } catch (error) {
       return reply.status(500).send({ message: "Internal Server Error" });

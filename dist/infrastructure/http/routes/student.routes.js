@@ -24,7 +24,7 @@ const studentRoutes = (studentRepository) => [
     },
     {
         method: "GET",
-        url: "/students/:id",
+        url: "/students/:uuid",
         schema: student_schemas_1.getStudentByID,
         handler: (0, student_controller_1.getStudentById)(studentRepository),
     },

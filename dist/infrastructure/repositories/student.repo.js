@@ -22,23 +22,15 @@ class StudentRepository {
             return student;
         });
     }
-    // async getStudent(uuid: string): Promise<StudentBaap | undefined> {
-    //   const student = await StudentModel.findOne({ where: { uuid } });
-    //   return student as unknown as StudentBaap;
-    // }
     getStudent(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
-            const student = yield student_model_1.default.findOne({
-                where: { uuid },
-                include: {
-                    model: teacher_model_1.default,
-                    required: true,
-                },
+            const student = yield student_model_1.default.findByPk(uuid, {
+                include: [{
+                        model: teacher_model_1.default,
+                        as: 'teacher'
+                    }]
             });
-            if (student) {
-                return student.get();
-            }
-            return undefined;
+            return student;
         });
     }
     getAllStudents(page, limit) {

@@ -30,7 +30,7 @@ export const createServer = async (): Promise<FastifyInstance> => {
   };
 
   const environment = process.env.NODE_ENV ?? "production";
-  await sequelize.sync({force:true});
+  await sequelize.sync();
   // defineAssociations();
   const serverOptions: FastifyServerOptions = {
     ajv: {

@@ -5,7 +5,6 @@ import { StudentBaap } from "@core/entities/student.baap.training";
 import StudentModel from "@infrastructure/database/models/student.model";
 import TeacherModel from "@infrastructure/database/models/teacher.model";
 
-
 export class StudentRepository implements IStudentRepository {
   async createStudent(
     studentPayload: StudentTrainingPayload
@@ -14,29 +13,17 @@ export class StudentRepository implements IStudentRepository {
     return student as unknown as StudentBaap;
   }
 
-  // async getStudent(uuid: string): Promise<StudentBaap | undefined> {
-  //   const student = await StudentModel.findOne({ where: { uuid } });
-  //   return student as unknown as StudentBaap;
-  // }
-
   async getStudent(uuid: string): Promise<StudentBaap | undefined> {
-    const student = await StudentModel.findOne({
-      where: { uuid },
-      include: {
-        
-        model: TeacherModel,
-        required: true, 
-      },
-  
+    const student = await StudentModel.findByPk(uuid,{
+      include: [{
+        model: TeacherModel, 
+        as: 'teacher' 
+      }]
     });
-
-    if (student) {
-
-      return student.get() as StudentBaap;
-    }
-
-    return undefined;
+  
+    return student as unknown as StudentBaap;
   }
+
 
   async getAllStudents(page: number, limit: number): Promise<StudentBaap[]> {
     const offset = (page - 1) * limit;
@@ -75,13 +62,12 @@ export class StudentRepository implements IStudentRepository {
   //   return students.length ? students.map((student) => student.get() as StudentBaap) : undefined; // Ensure array return type
   // }
 
-  async getStudentByTeacher(
+  async getStudentByTeacher(  
     teacherId: string
   ): Promise<StudentBaap[] | undefined> {
     const students = await StudentModel.findAll({
       where: { teacherId: teacherId },
       include: {
-        
         model: TeacherModel,
         required: true, // Ensures that the student is linked to a teacher
       },
