@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("../../database/index"));
-// Import the Student model dynamically to avoid circular dependencies
 class TeacherModel extends sequelize_1.Model {
 }
 TeacherModel.init({
@@ -15,11 +14,15 @@ TeacherModel.init({
         allowNull: false,
         primaryKey: true,
     },
-    name: {
+    teacher_name: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
-    className: {
+    teacher_class: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
+    edjucation: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
@@ -28,9 +31,5 @@ TeacherModel.init({
     tableName: "teacher",
     timestamps: true,
 });
-// // Import StudentModel dynamically to prevent circular import issues
-// TeacherModel.hasMany(require("./student.model"), {
-//   foreignKey: "teacherId",
-//   sourceKey: "uuid",
-// });
+// TeacherModel.hasMany(StudentModel, { foreignKey: 'teacherId' }); // One teacher can have many students
 exports.default = TeacherModel;

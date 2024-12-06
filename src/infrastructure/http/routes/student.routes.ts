@@ -30,7 +30,7 @@ export const studentRoutes = (
   {
     method: "GET",
     url: "/students",
-    schema: getAllStudentsSchema,
+    // schema: getAllStudentsSchema,
     handler: getAllStudents(studentRepository),
   },
   {

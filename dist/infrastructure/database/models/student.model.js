@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("../../database/index"));
 const teacher_model_1 = __importDefault(require("./teacher.model")); // Ensure TeacherModel is imported correctly
+// Ensure CourseModel is imported correctly
 class StudentModel extends sequelize_1.Model {
 }
 StudentModel.init({
@@ -43,12 +44,13 @@ StudentModel.init({
             model: teacher_model_1.default,
             key: "uuid",
         },
-    },
+    }
 }, {
     sequelize: index_1.default,
     tableName: "student",
     timestamps: true,
 });
+// Associations
 StudentModel.belongsTo(teacher_model_1.default, {
     foreignKey: "teacherId",
     targetKey: "uuid",

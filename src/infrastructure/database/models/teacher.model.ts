@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../../database/index";
+import StudentModel from "./student.model";
 
 class TeacherModel extends Model {}
 
@@ -11,11 +12,15 @@ TeacherModel.init(
       allowNull: false,
       primaryKey: true,
     },
-    name: {
+    teacher_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    className: {
+    teacher_class: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    edjucation: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -26,5 +31,6 @@ TeacherModel.init(
     timestamps: true,
   }
 );
+// TeacherModel.hasMany(StudentModel, { foreignKey: 'teacherId' }); // One teacher can have many students
 
 export default TeacherModel;

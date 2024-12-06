@@ -14,7 +14,7 @@ const studentRoutes = (studentRepository) => [
     {
         method: "GET",
         url: "/students",
-        schema: student_schemas_1.getAllStudentsSchema,
+        // schema: getAllStudentsSchema,
         handler: (0, student_controller_1.getAllStudents)(studentRepository),
     },
     {

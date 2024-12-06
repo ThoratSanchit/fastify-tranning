@@ -3,13 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTeacherSchema = exports.putTeacherSchema = exports.getAllTeachersSchema = exports.getAllTeachersQuery = exports.getTeacherByIdSchema = exports.postTeacherSchema = exports.teacherNotFoundSchema = exports.TeacherResponse = exports.TeacherPayload = void 0;
 const typebox_1 = require("@sinclair/typebox");
 exports.TeacherPayload = typebox_1.Type.Object({
-    name: typebox_1.Type.String({ description: "Name of the teacher" }),
-    className: typebox_1.Type.String({ description: "Class assigned to the teacher" }),
+    teacher_name: typebox_1.Type.String({ description: "Name of the teacher" }),
+    teacher_class: typebox_1.Type.String({ description: "Class assigned to the teacher" }),
+    edjucation: typebox_1.Type.String({ description: "Class assigned to the teacher" }),
 });
 exports.TeacherResponse = typebox_1.Type.Object({
     uuid: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Unique identifier of the teacher" })),
-    name: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Name of the teacher" })),
-    className: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Class assigned to the teacher" })),
+    teacher_name: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Name of the teacher" })),
+    teacher_class: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Class assigned to the teacher" })),
+    edjucation: typebox_1.Type.Optional(typebox_1.Type.String({ description: "Class assigned to the teacher" })),
 });
 exports.teacherNotFoundSchema = typebox_1.Type.Object({
     statusCode: typebox_1.Type.Number({ example: 404 }),

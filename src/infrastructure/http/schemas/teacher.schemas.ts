@@ -1,17 +1,23 @@
+////teacher/schema
 import { FastifySchema } from "fastify";
 import { Static, Type } from "@sinclair/typebox";
 
 
 export const TeacherPayload = Type.Object({
-  name: Type.String({ description: "Name of the teacher" }),
-  className: Type.String({ description: "Class assigned to the teacher" }),
+  teacher_name: Type.String({ description: "Name of the teacher" }),
+  teacher_class: Type.String({ description: "Class assigned to the teacher" }),
+  edjucation: Type.String({ description: "Class assigned to the teacher" }),
+
+
 });
 
 
 export const TeacherResponse = Type.Object({
   uuid: Type.Optional(Type.String({ description: "Unique identifier of the teacher" })),
-  name: Type.Optional(Type.String({ description: "Name of the teacher" })),
-  className: Type.Optional(Type.String({ description: "Class assigned to the teacher" })),
+  teacher_name: Type.Optional(Type.String({ description: "Name of the teacher" })),
+  teacher_class: Type.Optional(Type.String({ description: "Class assigned to the teacher" })),
+  edjucation: Type.Optional(Type.String({ description: "Class assigned to the teacher" })),
+
 });
 
 

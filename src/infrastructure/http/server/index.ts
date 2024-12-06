@@ -9,9 +9,10 @@ import docs from "@infrastructure/http/plugins/docs";
 import config from "@infrastructure/http/plugins/config";
 import sequelize from "@infrastructure/database/index";
 import { StudentRepository } from "@infrastructure/repositories/student.repo";
-import { CourseRepository } from "@infrastructure/repositories/course.repo";
+
 
 import { TeacherRepositoryImpl } from "@infrastructure/repositories/teacher.repo";
+
 
 export const createServer = async (): Promise<FastifyInstance> => {
   const envToLogger: any = {
@@ -29,7 +30,8 @@ export const createServer = async (): Promise<FastifyInstance> => {
   };
 
   const environment = process.env.NODE_ENV ?? "production";
-  await sequelize.sync();
+  await sequelize.sync({force:true});
+  // defineAssociations();
   const serverOptions: FastifyServerOptions = {
     ajv: {
       customOptions: {
@@ -61,12 +63,12 @@ export const createServer = async (): Promise<FastifyInstance> => {
   const studentRepository = new StudentRepository();
 
   const teacherRepositoryImpl = new TeacherRepositoryImpl();
-  const courseRepository = new CourseRepository();
+ 
 
   const applicationRoutes = routes(
     studentRepository,
     teacherRepositoryImpl,
-    courseRepository
+
   );
   applicationRoutes.forEach((route) => {
     server.route(route);

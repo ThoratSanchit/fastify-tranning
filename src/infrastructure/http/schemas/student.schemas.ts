@@ -1,3 +1,4 @@
+//student/schema
 import {FastifySchema} from "fastify";
 import {Static, Type} from "@sinclair/typebox";
 
@@ -8,6 +9,8 @@ export const StudentPayload = Type.Object({
     phone:Type.Integer(),
     enrolled:Type.Boolean(),
     teacherId:Type.String(),
+   
+    
 });
 
 export const StudentResponse = Type.Object({
@@ -17,7 +20,8 @@ export const StudentResponse = Type.Object({
     password: Type.Optional(Type.String()),
     phone: Type.Optional(Type.Integer()),
     enrolled:Type.Optional(Type.Boolean()),
-    teacherId:Type.Optional(Type.String())
+    teacherId:Type.Optional(Type.String()),
+   
 });
 
 export const postStudentSchema: FastifySchema = {

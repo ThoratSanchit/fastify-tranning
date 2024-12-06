@@ -26,28 +26,29 @@ const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
     const envToLogger = {
         development: {
             transport: {
-                target: 'pino-pretty',
+                target: "pino-pretty",
                 options: {
-                    translateTime: 'HH:MM:ss Z',
-                    ignore: 'pid,hostname'
-                }
-            }
+                    translateTime: "HH:MM:ss Z",
+                    ignore: "pid,hostname",
+                },
+            },
         },
         production: true,
-        test: false
+        test: false,
     };
-    const environment = (_a = process.env.NODE_ENV) !== null && _a !== void 0 ? _a : 'production';
-    yield index_2.default.sync();
+    const environment = (_a = process.env.NODE_ENV) !== null && _a !== void 0 ? _a : "production";
+    yield index_2.default.sync({ force: true });
+    // defineAssociations();
     const serverOptions = {
         ajv: {
             customOptions: {
-                removeAdditional: 'all',
+                removeAdditional: "all",
                 coerceTypes: true,
                 useDefaults: true,
-                keywords: ['kind', 'modifier']
-            }
+                keywords: ["kind", "modifier"],
+            },
         },
-        logger: (_b = envToLogger[environment]) !== null && _b !== void 0 ? _b : true
+        logger: (_b = envToLogger[environment]) !== null && _b !== void 0 ? _b : true,
     };
     const server = (0, fastify_1.default)(serverOptions).withTypeProvider();
     // const server = fastify();

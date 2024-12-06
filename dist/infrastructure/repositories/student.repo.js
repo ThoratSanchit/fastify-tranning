@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StudentRepository = void 0;
 const student_model_1 = __importDefault(require("@infrastructure/database/models/student.model"));
 const teacher_model_1 = __importDefault(require("@infrastructure/database/models/teacher.model"));
-// import TeacherModel from "@infrastructure/database/models/teacher.model";
 class StudentRepository {
     createStudent(studentPayload) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,10 +22,23 @@ class StudentRepository {
             return student;
         });
     }
+    // async getStudent(uuid: string): Promise<StudentBaap | undefined> {
+    //   const student = await StudentModel.findOne({ where: { uuid } });
+    //   return student as unknown as StudentBaap;
+    // }
     getStudent(uuid) {
         return __awaiter(this, void 0, void 0, function* () {
-            const student = yield student_model_1.default.findOne({ where: { uuid } });
-            return student;
+            const student = yield student_model_1.default.findOne({
+                where: { uuid },
+                include: {
+                    model: teacher_model_1.default,
+                    required: true,
+                },
+            });
+            if (student) {
+                return student.get();
+            }
+            return undefined;
         });
     }
     getAllStudents(page, limit) {
@@ -72,6 +84,7 @@ class StudentRepository {
                     required: true, // Ensures that the student is linked to a teacher
                 },
             });
+            console.log("new data");
             return students.length
                 ? students.map((student) => student.get())
                 : undefined; // Ensure array return type

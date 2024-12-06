@@ -23,4 +23,5 @@ CourseModel.init({
     tableName: "course",
     timestamps: true,
 });
+// One course can have many students
 exports.default = CourseModel;
