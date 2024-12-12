@@ -19,9 +19,11 @@ const cors_1 = __importDefault(require("@fastify/cors"));
 const docs_1 = __importDefault(require("@infrastructure/http/plugins/docs"));
 const config_1 = __importDefault(require("@infrastructure/http/plugins/config"));
 const index_2 = __importDefault(require("@infrastructure/database/index"));
+const jwt_1 = __importDefault(require("@fastify/jwt"));
 const student_repo_1 = require("@infrastructure/repositories/student.repo");
 const association_1 = require("@infrastructure/http/middleware/association");
 const teacher_repo_1 = require("@infrastructure/repositories/teacher.repo");
+const user_routes_1 = require("../Auth/user.routes");
 const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const envToLogger = {
@@ -63,6 +65,10 @@ const createServer = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
     yield server.register(docs_1.default);
     yield server.register(config_1.default);
+    server.register(jwt_1.default, {
+        secret: "your_jwt_secret_key",
+    });
+    yield (0, user_routes_1.authRoutes)(server);
     const studentRepository = new student_repo_1.StudentRepository();
     const teacherRepositoryImpl = new teacher_repo_1.TeacherRepositoryImpl();
     const applicationRoutes = (0, index_1.default)(studentRepository, teacherRepositoryImpl);

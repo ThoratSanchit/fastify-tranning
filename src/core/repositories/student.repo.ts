@@ -2,7 +2,6 @@
 import { StudentTrainingPayload } from "../entities/student.training.ommit";
 
 import { StudentBaap } from "@core/entities/student.baap.training";
-
 export interface IStudentRepository {
     createStudent: (studentPayload: StudentTrainingPayload) => Promise<StudentBaap>;
     getStudent: (uuid: string) => Promise<StudentBaap | undefined>;

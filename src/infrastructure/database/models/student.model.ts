@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../../database/index";
-import TeacherModel from "./teacher.model"; // Ensure TeacherModel is imported correctly
- // Ensure CourseModel is imported correctly
+import TeacherModel from "./teacher.model";
+
 
 class StudentModel extends Model {
   teacher: any;
@@ -54,13 +54,7 @@ StudentModel.init(
   }
 );
 
-// Associations
-// StudentModel.belongsTo(TeacherModel, {
-//   foreignKey: "teacherId",
-//   targetKey: "uuid",
-//    as: "teacher"
 
-// });
 
 
 

@@ -8,11 +8,13 @@ import cors from "@fastify/cors";
 import docs from "@infrastructure/http/plugins/docs";
 import config from "@infrastructure/http/plugins/config";
 import sequelize from "@infrastructure/database/index";
+import fastifyJwt from "@fastify/jwt";
 import { StudentRepository } from "@infrastructure/repositories/student.repo";
 import {defineAssociations} from "@infrastructure/http/middleware/association";
 
 
 import { TeacherRepositoryImpl } from "@infrastructure/repositories/teacher.repo";
+import { authRoutes } from "../Auth/user.routes";
 
 
 export const createServer = async (): Promise<FastifyInstance> => {
@@ -60,6 +62,10 @@ export const createServer = async (): Promise<FastifyInstance> => {
 
   await server.register(docs);
   await server.register(config);
+  server.register(fastifyJwt, {
+    secret: "your_jwt_secret_key", 
+});
+await authRoutes(server);
 
   const studentRepository = new StudentRepository();
 

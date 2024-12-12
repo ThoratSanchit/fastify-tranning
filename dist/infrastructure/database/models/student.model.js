@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const index_1 = __importDefault(require("../../database/index"));
-const teacher_model_1 = __importDefault(require("./teacher.model")); // Ensure TeacherModel is imported correctly
-// Ensure CourseModel is imported correctly
+const teacher_model_1 = __importDefault(require("./teacher.model"));
 class StudentModel extends sequelize_1.Model {
 }
 StudentModel.init({
@@ -50,10 +49,4 @@ StudentModel.init({
     tableName: "student",
     timestamps: true,
 });
-// Associations
-// StudentModel.belongsTo(TeacherModel, {
-//   foreignKey: "teacherId",
-//   targetKey: "uuid",
-//    as: "teacher"
-// });
 exports.default = StudentModel;

@@ -72,12 +72,12 @@ export class StudentRepository implements IStudentRepository {
       include: {
         model: TeacherModel,
         as: "teacher",
-        required: true, // Ensures that the student is linked to a teacher
+        required: true, 
       },
     });
     console.log("new data");
     return students.length
       ? students.map((student) => student.get() as StudentBaap)
-      : undefined; // Ensure array return type
+      : undefined; 
   }
 }

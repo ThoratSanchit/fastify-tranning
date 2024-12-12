@@ -76,13 +76,13 @@ class StudentRepository {
                 include: {
                     model: teacher_model_1.default,
                     as: "teacher",
-                    required: true, // Ensures that the student is linked to a teacher
+                    required: true,
                 },
             });
             console.log("new data");
             return students.length
                 ? students.map((student) => student.get())
-                : undefined; // Ensure array return type
+                : undefined;
         });
     }
 }
